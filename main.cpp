@@ -2,10 +2,7 @@
 #include "GestureRecognition.h"
 #include <iostream>
 #include <stdlib.h>
-#include <opencv2/core/core.hpp>
-#include <opencv2/highgui/highgui.hpp>
 using namespace std;
-using namespace cv;
 int pictureOpenFlag = 0;
 
 int main()
@@ -13,13 +10,13 @@ int main()
 	// Mat image, imgRenew;
 	// image = imread("../pictures/2.jpg");
 
-	// Ê¶ï¿½ï¿½Ä£ï¿½ï¿½
-	Mat imgSrc = imread("/Users/HZzone/Desktop/Gesture_map/GestureRecognition/Pictures/111.jpg");
+	// Ê¶±ðÄ£°å
+	Mat imgSrc = imread("Pictures/111.jpg");
 	//string name[8] = {"0", "5", "1", "8_right","8_left","4", "3", "2"};
 	/*string name[10] = {"8_right","8_right","5","0","1","8_left", "5", "8_left"};*/
 	string name[4] = {"5","0","1","5"};
-	std:cout<< imgSrc.size() <<endl;
-	imshow("hh", imgSrc);
+
+
 	Mat imb;
 	cvtColor(imgSrc, imb, CV_BGR2GRAY);
 	threshold(imb, imb, 100, 255, CV_THRESH_TOZERO);
@@ -29,29 +26,29 @@ int main()
 	//imshow("123",imgSrc);
 	//waitKey(0);
 
-	//ï¿½ï¿½Í¼ï¿½ä»»
+	//µØÍ¼±ä»»
 	// Mapchange map;
 	//string NotExist = "XXX";
 
 	vector<Point> smallwindow_num;
 	int windownum = 0;
-	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æµï¿½è±¸ï¿½ï¿½ï¿½ï¿½ï¿½Îª0ï¿½ï¿½
+	// Á¬½ÓÊÓÆµÉè±¸£¨±àºÅÎª0£©
 	VideoCapture cap(0);
 	if (!cap.isOpened())
 	{
-		std::cerr << "[ï¿½ï¿½ï¿½ï¿½] ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æµï¿½è±¸Ê§ï¿½ï¿½." << std::endl;
+		std::cerr << "[´íÎó] Á¬½ÓÊÓÆµÉè±¸Ê§°Ü." << std::endl;
 		return -1;
 	}
 
-	// Ç°Ò»ï¿½ï¿½Ê¶ï¿½ï¿½Ä½ï¿½ï¿½
+	// Ç°Ò»´ÎÊ¶±ðµÄ½á¹û
 	int pre_idxGesture = -99;
 
-	int OpCloNum[8] = {0};//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÆµÄ³ï¿½ï¿½ï¿½Ö¡ï¿½ï¿½
-	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æµ
+	int OpCloNum[8] = {0};//¸÷¸öÊÖÊÆµÄ³ÖÐøÖ¡Êý
+	// ´¦ÀíÊÓÆµ
 	do
 	{
-		bool HasGesture[8] = {false};//ï¿½ï¿½Ç°Ö¡ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½i
-		// ï¿½ï¿½È¡ï¿½ï¿½Ç°Ö¡
+		bool HasGesture[8] = {false};//µ±Ç°Ö¡ÖÐÊÖ·ñÓÐÊÖÊÆi
+		// »ñÈ¡µ±Ç°Ö¡
 		Mat frame;
 		cap >> frame;
 		//Mat frame = imread("../Pictures/sample.jpg");
@@ -59,25 +56,25 @@ int main()
 		{
 			continue;
 		}
-		////ROIï¿½ï¿½Ð¡
+		////ROI´óÐ¡
 		//cv::Rect roi(0, 0, 640, 380);
 		//cv::Mat frame_roi = frame(roi);
 
-		// ï¿½Ôµï¿½Ç°Ö¡ï¿½ï¿½ï¿½æ´´ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¶ï¿½ï¿½ï¿½ï¿½ï¿½
+		// ¶Ôµ±Ç°Ö¡»­Ãæ´´½¨Ò»¸öÊÖÊÆÊ¶±ð¶ÔÏó
 		Gesture GestureObj(frame);
 
-		// ï¿½ï¿½ï¿½É¹ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½
+		// Èô³É¹¦»ñÈ¡ÊÖÕÆÍ¼Ïñ
 		if (GestureObj.GetPalmImage() == true)
 		{
-			// ï¿½ï¿½imgSrcÎªÔ´ï¿½ï¿½ï¿½ï¿½Ê¶ï¿½ð£¬»ï¿½Ã¶ï¿½Ó¦Í¼Æ¬ï¿½ï¿½ï¿½ï¿½ï¿½Â±ï¿½
+			// ÒÔimgSrcÎªÔ´½øÐÐÊ¶±ð£¬»ñµÃ¶ÔÓ¦Í¼Æ¬ËùÔÚÏÂ±ê
 			vector<int> idxGesture = GestureObj.Recognize(imgSrc_contours);
 			if(idxGesture.empty())
 			{
-				puts("Ê¶ï¿½ï¿½Ê§ï¿½ï¿½");
+				puts("Ê¶±ðÊ§°Ü");
 				continue;
 			}
 
-			// ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½
+			// ÏÔÊ¾½á¹û
 			for(int i=0;i<idxGesture.size();i++) {
 				assert(idxGesture[i] >= 0);
 				if(name[idxGesture[i]] == "8_left")
@@ -120,27 +117,27 @@ int main()
 //				GestureObj.SetText(NotExist);
 //			}
 //*/
-			// ï¿½ï¿½ï¿½ï¿½ï¿½Æ±ä»¯Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¶ï¿½ï¿½ï¿½ï¿½
+			// µ±ÊÖÊÆ±ä»¯Ê±£¬¸üÐÂÊ¶±ð½á¹û
 			/*if (idxGesture != pre_idxGesture)
 			{
 				pre_idxGesture = idxGesture;
 				if (idxGesture != -1)
 				{
-					std::cout << "[Ê¶ï¿½ï¿½] " << name[idxGesture] << std::endl;
+					std::cout << "[Ê¶±ð] " << name[idxGesture] << std::endl;
 				}
 				else
 				{
-					std::cout << "[Ê¶ï¿½ï¿½] ï¿½Þ¶ï¿½Ó¦ï¿½ï¿½ï¿½Æ¡ï¿½" << std::endl;
+					std::cout << "[Ê¶±ð] ÎÞ¶ÔÓ¦ÊÖÊÆ¡£" << std::endl;
 				}
 			}*/
 
-			// Ñ°ï¿½ï¿½Ö¸ï¿½ï¿½
+			// Ñ°ÕÒÖ¸¼â
 			/*GestureObj.FindFingerTips();*/
-			//ï¿½ï¿½Í¼ï¿½ä»»
+			//µØÍ¼±ä»»
 			// GestureObj.mapChange(map,OpCloNum);
 		}
 
-		// ï¿½ï¿½Ê¾Í¼Æ¬
+		// ÏÔÊ¾Í¼Æ¬
 		GestureObj.Show();
 		//waitKey();
 	} while(waitKey(30) != 13);
