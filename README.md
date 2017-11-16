@@ -7,7 +7,7 @@ make
 ```
 
 #### step 1: find the hand
-<table align="center" border="1px">
+<table align="center">
     <tr>
         <td align="center">origin</td>
         <td align="center">py version</td>
