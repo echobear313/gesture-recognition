@@ -44,6 +44,7 @@ private:
 
 public:
     Gesture(cv::Mat& im){
+        assert(!im.empty());
         cv::Mat mask, show_img;
         std::vector<std::vector<cv::Point> > contours;
         // 得到mask
@@ -72,20 +73,112 @@ public:
             /*
              * 手势存在与模版中
              */
-            if(max_index){
+            if(max_index>=0){
                 this->gesture_category = max_index;
 //                std::cout<<max_index<<std::endl;
                 // 计算凸包，得到指尖的位置
+                std::vector<int> hull_int;
                 std::vector<cv::Point> hull;
-                cv::convexHull(cv::Mat(contours[index]), hull, true);
-                std::cout<<hull<<std::endl;
+                cv::convexHull(cv::Mat(contours[index]), hull_int, true);
+//                std::cout<<hull_int.size()<<std::endl;
+
+                // 计算convexity defects, depth至少是20的点
+                std::vector<cv::Vec4i> convexityDefects;
+                cv::convexityDefects(cv::Mat(contours[index]), hull_int, convexityDefects);
+//                std::cout<<convexityDefects.size()<<std::endl;
+//                std::cout<<contours[index].size()<<std::endl;
+                // 只保留终点
+                for (auto x:convexityDefects) {
+                    /*
+                     * 这里的1000是保留的最大深度的凸缺陷的坐标的阈值，可能需要调整
+                     */
+                    if (x[3] > 1000) {
+                        hull.push_back(contours[index][x[1]]);
+//                        std::cout << contours[index][x[2]] << std::endl;
+                    }
+//                std::cout<<x<<std::endl;
+                }
 //                std::vector<std::vector<cv::Point> > hh;
 //                hh.push_back(hull);
-//                cv::drawContours(show_img, hh, -1, 255);
-//                show(show_img);
+//                cv::drawContours(im, hh, -1, 255);
+//                show(im);
+                std::cout<<max_index<<std::endl;
+                switch (max_index%2){
+                    /**
+                     * 八字
+                     */
+                    case 0: {
+                        int finger_index1 = 0;
+                        int finger_index2 = 0;
+                        // 一个足够大的数
+                        int min_d_1 = 10000000;
+                        int min_d_2 = 10000000;
+//                        std::cout<<im.size()<<std::endl;
+                        cv::Point point1(0, 0);
+                        cv::Point point2(im.size().width, 0);
+//                        std::cout<<point2<<std::endl;
+                        /*
+                         * 左上角和右上角距离最小的点
+                         */
+                        for (int i = 0; i < hull.size(); i++) {
+                            double d1 = powf((point1.x - hull[i].x),2) + powf((point1.y - hull[i].y),2);
+                            double d2 = powf((point2.x - hull[i].x),2) + powf((point2.y - hull[i].y),2);
+                            if (min_d_1 > d1){
+                                finger_index1 = i;
+                                min_d_1 = d1;
+                            }
+                            if (min_d_2 > d2){
+                                finger_index2 = i;
+                                min_d_2 = d2;
+                            }
+                            std::cout<<d1<<std::endl;
+                            std::cout<<d2<<std::endl;
+                            std::cout<<"-----"<<std::endl;
+                        }
+                        std::cout<<min_d_1<<std::endl;
+                        finger_location.push_back(hull[finger_index1]);
+                        finger_location.push_back(hull[finger_index2]);
+//                        cv::circle(im, hull[finger_index1], 10, cv::Scalar(0, 0, 255));
+//                        cv::circle(im, hull[finger_index2], 10, cv::Scalar(0, 0, 255));
+//                        show(im);
+                        break;
+                    }
+                    /**
+                     * 只有食指
+                     */
+                    case 1: {
+                        int finger_index = 0;
+                        // 一个足够大的数
+                        int min_y = 1000000;
+                        for (int i = 0; i < hull.size(); i++) {
+                            if (min_y > hull[i].y) {
+                                finger_index = i;
+                                min_y = hull[i].y;
+                            }
+                        }
+                        finger_location.push_back(hull[finger_index]);
+//                        cv::circle(im, hull[finger_index], 10, cv::Scalar(0, 0, 255));
+//                        show(im);
+                        break;
+                    }
+                }
             }
+           else {
+               std::cout<<"no gesture matched!"<<std::endl;
+           }
 
         }
+       else {
+           std::cout<<"no hand has been found!"<<std::endl;
+       }
+    }
+
+    bool hasHand(){
+        return this->hasHand;
+    }
+    void getFingerLocation(std::vector<cv::Point>& v){
+        assert(v.size()==0);
+        v.assign(this->finger_location.begin(), this->finger_location.end());
     }
 
 };

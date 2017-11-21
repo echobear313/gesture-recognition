@@ -118,11 +118,13 @@ int getMaxSimilarityIndex(const cv::Mat& im){
         cv::Mat new_image;
         cv::resize(gesture_templates[i], new_image, im.size());
         auto x = getMSSIM(new_image, im);
+        std::cout<<x[0]<<std::endl;
         if(max_similarity < x[0]){
             max_similarity = x[0];
             max_index = i;
         }
     }
+    std::cout<<"max_similarity: "<<max_similarity<<std::endl;
     if(max_similarity<0.8)
         max_index = -1;
     return max_index;
