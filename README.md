@@ -24,3 +24,9 @@ make
         <td align="center"><img src="pic/6.jpg"></td>
     </tr>
 </table>
+#### step 2: compared with template gestures by similarity
+#### step 3: find the finger point by max convex
+<div align="center">
+    <img src="pic/max_convex.jpg">
+</div>
+
