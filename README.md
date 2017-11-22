@@ -22,16 +22,17 @@ gesture.getFingerLocation(std::vector<cv::Point>)
         <td align="center">C++ version</td>
     </tr> 
     <tr>
-        <td align="center"><img src="pic/1.jpg"></td>
+        <td align="center"><img src="pic/1.JPG"></td>
         <td align="center"><img src="pic/4.jpg"></td>
         <td align="center"><img src="pic/3.jpg"></td>
     </tr>
     <tr>
-        <td align="center"><img src="pic/2.jpg"></td>
+        <td align="center"><img src="pic/2.JPG"></td>
         <td align="center"><img src="pic/5.jpg"></td>
         <td align="center"><img src="pic/6.jpg"></td>
     </tr>
 </table>
+
 #### step 2: compared with template gestures by similarity
 #### step 3: find the finger point by max convex
 max convex:
