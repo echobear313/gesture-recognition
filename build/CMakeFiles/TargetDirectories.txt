@@ -1,3 +1,0 @@
-/home/hzzone/gesture-recognition/build/CMakeFiles/rebuild_cache.dir
-/home/hzzone/gesture-recognition/build/CMakeFiles/edit_cache.dir
-/home/hzzone/gesture-recognition/build/CMakeFiles/main.dir
