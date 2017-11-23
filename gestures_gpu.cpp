@@ -1,8 +1,8 @@
 #include "gesture.h"
 
-void getMask(const gpu::GpuMat& im, gpu::GpuMat& mask){
+void getMask(const cv::gpu::GpuMat& im, cv::gpu::GpuMat& mask){
     assert(!im.empty());
-    gpu::GpuMat hsv;
+    cv::gpu::GpuMat hsv;
     cv::medianBlur(im, im, 5);
     cv::cvtColor(im, hsv, cv::COLOR_RGB2HSV);
     cv::inRange(hsv, cv::Scalar(100, 50, 0), cv::Scalar(125, 255, 255), mask);

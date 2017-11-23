@@ -6,6 +6,6 @@
 #include "opencv2/gpu/gpu.hpp"
 #include <assert.h>
 
-void getMask(const gpu::GpuMat& im, gpu::GpuMat& mask);
+void getMask(const cv::gpu::GpuMat& im, cv::gpu::GpuMat& mask);
 
 #endif //GESTURERECOGNITION_GESTURE_GPU_H

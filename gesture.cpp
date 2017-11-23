@@ -94,10 +94,10 @@ cv::Scalar getMSSIM(const cv::Mat& i1, const cv::Mat& i2)
  * @param t
  */
 void load_template(std::vector<cv::Mat>& t){
-    auto im1 = cv::imread("/Users/HZzone/Desktop/gesture-recognition/pic/templates/1.jpg");
-    auto im2 = cv::imread("/Users/HZzone/Desktop/gesture-recognition/pic/templates/2.jpg");
-    auto im3 = cv::imread("/Users/HZzone/Desktop/gesture-recognition/pic/templates/3.jpg");
-    auto im4 = cv::imread("/Users/HZzone/Desktop/gesture-recognition/pic/templates/4.jpg");
+    cv::Mat im1 = cv::imread("/Users/HZzone/Desktop/gesture-recognition/pic/templates/1.jpg");
+    cv::Mat im2 = cv::imread("/Users/HZzone/Desktop/gesture-recognition/pic/templates/2.jpg");
+    cv::Mat im3 = cv::imread("/Users/HZzone/Desktop/gesture-recognition/pic/templates/3.jpg");
+    cv::Mat im4 = cv::imread("/Users/HZzone/Desktop/gesture-recognition/pic/templates/4.jpg");
     cv::cvtColor(im1, im1, cv::COLOR_RGB2GRAY);
     cv::cvtColor(im2, im2, cv::COLOR_RGB2GRAY);
     cv::cvtColor(im3, im3, cv::COLOR_RGB2GRAY);
@@ -117,7 +117,7 @@ int getMaxSimilarityIndex(const cv::Mat& im){
     for(int i=0; i<gesture_templates.size();i++) {
         cv::Mat new_image;
         cv::resize(gesture_templates[i], new_image, im.size());
-        auto x = getMSSIM(new_image, im);
+        cv::Scalar x = getMSSIM(new_image, im);
         std::cout<<x[0]<<std::endl;
         if(max_similarity < x[0]){
             max_similarity = x[0];

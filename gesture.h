@@ -58,12 +58,12 @@ public:
 
         // 判断是否有手
         if(cv::contourArea(cv::Mat(contours[index])) > this->handAreaThreshold)
-            hasHand = true;
+            this->hasHand = true;
 
         /**
          * 有手的话先判断那种手势，再然后根据不同的手势提取需要的指尖位置
          */
-        if(hasHand) {
+        if(this->hasHand) {
 
             // 手的轮廓 zeroMatrix
             cv::Mat zeroMatrix(mask.size(), CV_8UC1, cv::Scalar(0));
@@ -88,7 +88,7 @@ public:
 //                std::cout<<convexityDefects.size()<<std::endl;
 //                std::cout<<contours[index].size()<<std::endl;
                 // 只保留终点
-                for (auto x:convexityDefects) {
+                for (cv::Vec4i x:convexityDefects) {
                     /*
                      * 这里的1000是保留的最大深度的凸缺陷的坐标的阈值，可能需要调整
                      */
@@ -173,7 +173,7 @@ public:
        }
     }
 
-    bool hasHand(){
+    bool HasHand(){
         return this->hasHand;
     }
     void getFingerLocation(std::vector<cv::Point>& v){
