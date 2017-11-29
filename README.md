@@ -15,47 +15,11 @@ gesture.HasHand();
 gesture.getFingerLocation(std::vector<cv::Point>)
 ```
 #### step 1: find the hand
-<table align="center">
-    <tr>
-        <td align="center">origin</td>
-        <td align="center">py version</td>
-        <td align="center">C++ version</td>
-    </tr> 
-    <tr>
-        <td align="center"><img src="pic/1.jpg"></td>
-        <td align="center"><img src="pic/4.jpg"></td>
-        <td align="center"><img src="pic/3.jpg"></td>
-    </tr>
-    <tr>
-        <td align="center"><img src="pic/2.jpg"></td>
-        <td align="center"><img src="pic/5.jpg"></td>
-        <td align="center"><img src="pic/6.jpg"></td>
-    </tr>
-</table>
-
 #### step 2: compared with template gestures by similarity
 #### step 3: find the finger point by max convex
-max convex:
-<div align="center">
-    <img src="pic/max_convex.jpg">
-</div>
-
-contours of max convex:
-<div align="center">
-    <img src="pic/max_convex_contours.jpg">
-</div>
-
 #### step 4: calculate convexity defects
 
-<div align="center">
-    <img src="pic/show.png">
-</div>
-
 #### step 5: keep the contours which depth > threshold, find the finger point
-<div align="center">
-    <img src="pic/find_finger_point.jpg">
-</div>
-
 
 #### install cuda
 #### install opencv with gpu support
